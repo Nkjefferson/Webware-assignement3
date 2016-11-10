@@ -16,10 +16,10 @@ var server = http.createServer (function (req, res) {
       break
     // Note we no longer have an index.html file, but we handle the cases since that's what the browser will request
     case '/':
-      sendIndex(res)
+      sendIndex(res, movies)
       break
     case '/index.html':
-      sendIndex(res)
+      sendIndex(res, movies)
       break
     case '/css/style.css':
       sendFile(res, 'style.css', 'text/css')
@@ -53,64 +53,36 @@ function handleSearch(res, uri) {
            results.push(movies[i])
        }
     }
-  var contentType = 'text/html'
-    , html = ''
-
-  html = html + '<html>'
-
-  html = html + '<head>'
-  // You could add a CSS and/or js call here...
-  html = html + '</head>'
-
-  html = html + '<body>'
-  html = html + '<h1>Movie Search!</h1>'
-
-  // Here's where we build the form YOU HAVE STUFF TO CHANGE HERE
-  html = html + '<form action="search" method="TODO">'
-  html = html + '<input type="Search" name="text" />'
-  html = html + '<button type="TODO">Search</button>'
-  html = html + '</form>'
-
-  html = html + '<ul>'
-  // Note: the next line is fairly complex. 
-  // You don't need to understand it to complete the assignment,
-  // but the `map` function and `join` functions are VERY useful for working
-  // with arrays, so I encourage you to tinker with the line below
-  // and read up on the functions it uses.
-  //
-  // For a challenge, try rewriting this function to take the filtered movies list as a parameter, to avoid changing to a page that lists only movies.
-  html = html + results.map(function(d) { return '<li>'+d+'</li>' }).join(' ')
-  html = html + '</ul>'
-
-  html = html + '</body>'
-  html = html + '</html>'
-  
-  res.writeHead(200, {'Content-type': contentType})
-  res.end(html, 'utf-8')
+    sendIndex(res,results)
   } else {
     res.end('no query provided')
   }
 }
 
 // Note: consider this your "index.html" for this assignment
-function sendIndex(res) {
+function sendIndex(res, list) {
   var contentType = 'text/html'
     , html = ''
 
   html = html + '<html>'
 
   html = html + '<head>'
-  // You could add a CSS and/or js call here...
+  html = html + '<script src="https://use.fontawesome.com/53cba9084c.js"></script>'
+  html = html + '<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">'
+  html = html + '<link rel="stylesheet" type="text/css" href="css/style.css"/>'
   html = html + '</head>'
 
   html = html + '<body>'
+  html = html + '<div class="container">'
   html = html + '<h1>Movie Search!</h1>'
 
   // Here's where we build the form YOU HAVE STUFF TO CHANGE HERE
+  html = html + '<div class="input-group">'
   html = html + '<form action="search" method="TODO">'
-  html = html + '<input type="Search" name="text" />'
-  html = html + '<button type="TODO">Search</button>'
+  html = html + '<input type="Search" placeholder="Search..." name="text" />'
+  html = html + '<button class="btn btn-default" type="TODO"><i class="fa fa-search" ></i></button>'
   html = html + '</form>'
+  html = html + '</div>'
 
   html = html + '<ul>'
   // Note: the next line is fairly complex. 
@@ -120,8 +92,9 @@ function sendIndex(res) {
   // and read up on the functions it uses.
   //
   // For a challenge, try rewriting this function to take the filtered movies list as a parameter, to avoid changing to a page that lists only movies.
-  html = html + movies.map(function(d) { return '<li>'+d+'</li>' }).join(' ')
+  html = html + getList(list)
   html = html + '</ul>'
+  html = html + '</div>'
 
   html = html + '</body>'
   html = html + '</html>'
@@ -137,5 +110,13 @@ function sendFile(res, filename, contentType) {
     res.writeHead(200, {'Content-type': contentType})
     res.end(content, 'utf-8')
   })
+
+}
+
+function getList(arrName){
+
+    return '<ul class="list-group">' + arrName.map(function(d) { return '<li class="list-group-item">'+d+'</li>' }).join(' ') + '</ul>'
+
+
 
 }
