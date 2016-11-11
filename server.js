@@ -50,7 +50,7 @@ function handleSearch(res, uri) {
     // PROCESS THIS QUERY TO FILTER MOVIES ARRAY BASED ON THE USER INPUT
     console.log( uri.query )
     var results = []
-    var term = uri.query.substring(5,uri.query.length).toLowerCase();
+    var term = uri.query.substring(5,uri.query.length).toLowerCase().replace("+", " ");
     for(var i = 0; i < movies.length; i++){
        if(movies[i].toLowerCase().indexOf(term) > -1){
            results.push(movies[i])
@@ -75,18 +75,23 @@ function sendIndex(res, list) {
   html = html + '<link rel="stylesheet" type="text/css" href="css/style.css"/>'
   html = html + '</head>'
 
-  html = html + '<body>'
-  html = html + '<div class="container">'
+  html = html + '<body OnLoad="document.myform.text.focus();">'
+  html = html + '<div class="container-fluid">'
+
+  html = html + '<div class="jumbotron">'
   html = html + '<h1>Movie Search!</h1>'
 
   // Here's where we build the form YOU HAVE STUFF TO CHANGE HERE
+
   html = html + '<div class="input-group">'
-  html = html + '<form action="search" method="TODO">'
+  html = html + '<form action="search" name="myform" method="TODO">'
   html = html + '<input type="Search" placeholder="Search..." name="text" />'
   html = html + '<button class="btn btn-default" type="TODO"><i class="fa fa-search" ></i></button>'
   html = html + '</form>'
   html = html + '</div>'
+  html = html + '</div>'
 
+  html = html + '<div class="element">'
   html = html + '<ul>'
   // Note: the next line is fairly complex. 
   // You don't need to understand it to complete the assignment,
@@ -97,6 +102,7 @@ function sendIndex(res, list) {
   // For a challenge, try rewriting this function to take the filtered movies list as a parameter, to avoid changing to a page that lists only movies.
   html = html + getList(list)
   html = html + '</ul>'
+  html = html + '</div>'
   html = html + '</div>'
 
   html = html + '</body>'
