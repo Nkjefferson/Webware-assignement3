@@ -50,7 +50,7 @@ function handleSearch(res, uri) {
     // PROCESS THIS QUERY TO FILTER MOVIES ARRAY BASED ON THE USER INPUT
     console.log( uri.query )
     var results = []
-    var term = uri.query.substring(5,uri.query.length).toLowerCase().replace("+", " ");
+    var term = uri.query.substring(7,uri.query.length).toLowerCase().replace("+", " ");
     for(var i = 0; i < movies.length; i++){
        if(movies[i].toLowerCase().indexOf(term) > -1){
            results.push(movies[i])
@@ -75,7 +75,7 @@ function sendIndex(res, list) {
   html = html + '<link rel="stylesheet" type="text/css" href="css/style.css"/>'
   html = html + '</head>'
 
-  html = html + '<body OnLoad="document.myform.text.focus();">'
+  html = html + '<body OnLoad="document.myform.search.focus();">'
   html = html + '<div class="container-fluid">'
 
   html = html + '<div class="jumbotron">'
@@ -85,7 +85,7 @@ function sendIndex(res, list) {
 
   html = html + '<div class="input-group">'
   html = html + '<form action="search" name="myform" method="TODO">'
-  html = html + '<input type="Search" placeholder="Search..." name="text" />'
+  html = html + '<input type="Search" placeholder="Search..." name="search" />'
   html = html + '<button class="btn btn-default" type="TODO"><i class="fa fa-search" ></i></button>'
   html = html + '</form>'
   html = html + '</div>'
