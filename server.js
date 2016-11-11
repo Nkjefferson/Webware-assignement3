@@ -27,6 +27,9 @@ var server = http.createServer (function (req, res) {
     case '/js/scripts.js':
       sendFile(res, 'scripts.js', 'text/javascript')
       break
+    case '/README.md':
+      sendFile(res, 'README.md', 'utf8')
+      break
     default:
       res.end('404 not found')
   }
@@ -47,9 +50,9 @@ function handleSearch(res, uri) {
     // PROCESS THIS QUERY TO FILTER MOVIES ARRAY BASED ON THE USER INPUT
     console.log( uri.query )
     var results = []
-    var term = uri.query.substring(5,uri.query.length);
+    var term = uri.query.substring(5,uri.query.length).toLowerCase();
     for(var i = 0; i < movies.length; i++){
-       if(movies[i].indexOf(term) > -1){
+       if(movies[i].toLowerCase().indexOf(term) > -1){
            results.push(movies[i])
        }
     }
